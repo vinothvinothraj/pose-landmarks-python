@@ -1,9 +1,10 @@
 import React, { useRef, useEffect, useState } from "react";
-import { useParams } from 'react-router-dom';
+import { Router, useParams } from 'react-router-dom';
 import Webcam from "react-webcam";
 import { io } from "socket.io-client";
 import ProgressBar from "@ramonak/react-progress-bar";
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';  
 import Countdown from 'react-countdown';
 const socket = io("http://127.0.0.1:5000");  // Connect to Flask server
 
@@ -25,6 +26,7 @@ const PoseDetector = () => {
     const [headAlignmentPercentage, setHeadAlignmentPercentage] = useState(0);
     const [alignmentPercentages, setAlignmentPercentages] = useState([]);
     const [headAlignmentPercentages, setHeadAlignmentPercentages] = useState([]);
+    const navigate = useNavigate(); 
 
     // Use a ref to store the latest alignment percentages
     const alignmentPercentagesRef = useRef([]);
@@ -86,6 +88,8 @@ const PoseDetector = () => {
             axios.post('http://127.0.0.1:5000/sessions', sessionData)
                 .then((response) => console.log("Session saved:", response.data))
                 .catch((error) => console.error("Error saving session:", error));
+
+            navigate('/analysis');
         }
     }, [startTime, endTime]);
 

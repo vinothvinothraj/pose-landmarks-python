@@ -35,7 +35,7 @@ const FormComponent = () => {
 
     return (
         <div className="bg-gray-100 p-6 rounded-lg shadow-md w-full max-w-md mx-auto">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">User Information Form</h3>
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">Add New User</h3>
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">
                     <label htmlFor="name" className="block text-gray-700 text-sm font-medium mb-2">
