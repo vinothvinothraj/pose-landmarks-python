@@ -3,7 +3,7 @@ import axios from 'axios';
 import { FaEye, FaPlay, FaTrashAlt } from 'react-icons/fa';
 import Modal from './Modal';  // Import the modal component
 import { useNavigate } from 'react-router-dom';  // Import useNavigate from react-router-dom
-
+import DetailsViewModal from "./DetailsViewModal";
 const UserListComponent = () => {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -11,6 +11,9 @@ const UserListComponent = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedUserId, setSelectedUserId] = useState(null);
     const navigate = useNavigate();  // Initialize useNavigate
+    const [sessions, setSessions] = useState([]);
+    const [selectedUser, setSelectedUser] = useState(null);
+    const [isViewModalOpen, setIsViewModalOpen] = useState(false);
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -31,9 +34,23 @@ const UserListComponent = () => {
         navigate(`/pose-detection/${userId}`);  // Use navigate for routing
     };
 
-    const handleViewClick = (userId) => {
-        alert(`Viewing details for User ID: ${userId}`);  // Replace with actual view logic
+    const handleViewClick = async (userId) => {
+        try {
+            const response = await axios.get(`http://127.0.0.1:5000/sessions/user/${userId}`);
+            setSessions(response.data.sessions); // Extract data from response
+            setSelectedUser(userId);
+            setIsViewModalOpen(true);
+        } catch (error) {
+            if (error.response) {
+                // Handle API errors (e.g., 404)
+                console.error("API Error:", error.response.data);
+            } else {
+                // Handle network or unexpected errors
+                console.error("Unexpected error:", error);
+            }
+        }
     };
+
 
     const handleDeleteClick = (userId) => {
         setIsModalOpen(true);
@@ -126,9 +143,17 @@ const UserListComponent = () => {
                 </tbody>
             </table>
 
-            <Modal 
-                isOpen={isModalOpen} 
-                onClose={handleModalClose} 
+             {/* Modal */}
+             <DetailsViewModal
+                isOpen={isViewModalOpen}
+                onClose={() => setIsViewModalOpen(false)}
+                sessions={sessions}
+            />
+
+
+            <Modal
+                isOpen={isModalOpen}
+                onClose={handleModalClose}
                 onConfirm={handleConfirmDelete}
             />
         </div>

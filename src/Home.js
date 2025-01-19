@@ -10,9 +10,9 @@ function Home() {
         <Link to="/analysis" className="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg shadow-lg">
           Users List
         </Link>
-        <Link to="/analysis" className="px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg shadow-lg">
+        {/* <Link to="/analysis" className="px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg shadow-lg">
           Analysis
-        </Link>
+        </Link> */}
       </div>
     </header>
   );
